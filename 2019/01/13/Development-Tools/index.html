@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Mac OSXArchlinuxWindow manageri3wm .xinitrc   1exec i3  .bash_profile   123if [[ &quot;$(tty)&quot; &#x3D;&#x3D; &amp;#x27;&#x2F;dev&#x2F;tty1&amp;#x27; ]]; then    exec startx; exitfi    Terminal emulatorUrxvtAPI documentsZealD">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Development Tools">
+<meta property="og:url" content="http://kaiwk.github.io/2019/01/13/Development-Tools/index.html">
+<meta property="og:site_name" content="Kai&#39;s Blog">
+<meta property="og:description" content="Mac OSXArchlinuxWindow manageri3wm .xinitrc   1exec i3  .bash_profile   123if [[ &quot;$(tty)&quot; &#x3D;&#x3D; &amp;#x27;&#x2F;dev&#x2F;tty1&amp;#x27; ]]; then    exec startx; exitfi    Terminal emulatorUrxvtAPI documentsZealD">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-01-13T12:20:15.000Z">
+<meta property="article:modified_time" content="2020-09-19T12:27:43.392Z">
+<meta property="article:author" content="Wang Kai">
+<meta property="article:tag" content="tool">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Development Tools</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/kaiwk">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/03/24/%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8DTLS%E8%AF%81%E4%B9%A6/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2016/01/24/%E5%86%99%E7%BB%99%E6%96%B0%E7%9A%84%E4%B8%80%E5%B9%B4%EF%BC%882016%EF%BC%89/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://kaiwk.github.io/2019/01/13/Development-Tools/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://kaiwk.github.io/2019/01/13/Development-Tools/&text=Development Tools"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://kaiwk.github.io/2019/01/13/Development-Tools/&title=Development Tools"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://kaiwk.github.io/2019/01/13/Development-Tools/&is_video=false&description=Development Tools"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Development Tools&body=Check out this article: http://kaiwk.github.io/2019/01/13/Development-Tools/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://kaiwk.github.io/2019/01/13/Development-Tools/&title=Development Tools"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://kaiwk.github.io/2019/01/13/Development-Tools/&title=Development Tools"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://kaiwk.github.io/2019/01/13/Development-Tools/&title=Development Tools"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://kaiwk.github.io/2019/01/13/Development-Tools/&title=Development Tools"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://kaiwk.github.io/2019/01/13/Development-Tools/&name=Development Tools&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://kaiwk.github.io/2019/01/13/Development-Tools/&t=Development Tools"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Mac-OSX"><span class="toc-number">1.</span> <span class="toc-text">Mac OSX</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Archlinux"><span class="toc-number">2.</span> <span class="toc-text">Archlinux</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Window-manager"><span class="toc-number">2.1.</span> <span class="toc-text">Window manager</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#i3wm"><span class="toc-number">2.1.1.</span> <span class="toc-text">i3wm</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Terminal-emulator"><span class="toc-number">2.2.</span> <span class="toc-text">Terminal emulator</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Urxvt"><span class="toc-number">2.2.1.</span> <span class="toc-text">Urxvt</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#API-documents"><span class="toc-number">2.3.</span> <span class="toc-text">API documents</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Zeal"><span class="toc-number">2.3.1.</span> <span class="toc-text">Zeal</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#System-wide-keys-remapping"><span class="toc-number">2.4.</span> <span class="toc-text">System-wide keys remapping</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#xkeysnail"><span class="toc-number">2.4.1.</span> <span class="toc-text">xkeysnail</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PDF-Reader"><span class="toc-number">2.5.</span> <span class="toc-text">PDF Reader</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Common"><span class="toc-number">3.</span> <span class="toc-text">Common</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Terminal-multiplexer"><span class="toc-number">3.1.</span> <span class="toc-text">Terminal multiplexer</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Tmux"><span class="toc-number">3.1.1.</span> <span class="toc-text">Tmux</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Editor-and-IDE"><span class="toc-number">3.2.</span> <span class="toc-text">Editor and IDE</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Emacs-IDEA-intellij"><span class="toc-number">3.2.1.</span> <span class="toc-text">Emacs&#x2F;IDEA intellij</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Shell"><span class="toc-number">3.3.</span> <span class="toc-text">Shell</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#fish-shell"><span class="toc-number">3.3.1.</span> <span class="toc-text">fish shell</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Browser"><span class="toc-number">3.4.</span> <span class="toc-text">Browser</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Firefox"><span class="toc-number">3.4.1.</span> <span class="toc-text">Firefox</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mail"><span class="toc-number">3.5.</span> <span class="toc-text">Mail</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Password-Manager"><span class="toc-number">3.6.</span> <span class="toc-text">Password Manager</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#pass"><span class="toc-number">3.6.1.</span> <span class="toc-text">pass</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#GnuPG"><span class="toc-number">3.6.2.</span> <span class="toc-text">GnuPG</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Net-tools"><span class="toc-number">3.7.</span> <span class="toc-text">Net tools</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SSH"><span class="toc-number">3.7.1.</span> <span class="toc-text">SSH</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AutoSSH"><span class="toc-number">3.7.2.</span> <span class="toc-text">AutoSSH</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nmap"><span class="toc-number">3.7.3.</span> <span class="toc-text">nmap</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Development Tools
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Kai's Blog</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-01-13T12:20:15.000Z" itemprop="datePublished">2019-01-13</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/tool/" rel="tag">tool</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Mac-OSX"><a href="#Mac-OSX" class="headerlink" title="Mac OSX"></a>Mac OSX</h2><h2 id="Archlinux"><a href="#Archlinux" class="headerlink" title="Archlinux"></a>Archlinux</h2><h3 id="Window-manager"><a href="#Window-manager" class="headerlink" title="Window manager"></a>Window manager</h3><h4 id="i3wm"><a href="#i3wm" class="headerlink" title="i3wm"></a>i3wm</h4><ul>
+<li><p>.xinitrc</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exec</span> i3</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>.bash_profile</code></p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [[ <span class="string">&quot;<span class="subst">$(tty)</span>&quot;</span> == <span class="string">&#x27;/dev/tty1&#x27;</span> ]]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">exec</span> startx; <span class="built_in">exit</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="Terminal-emulator"><a href="#Terminal-emulator" class="headerlink" title="Terminal emulator"></a>Terminal emulator</h3><h4 id="Urxvt"><a href="#Urxvt" class="headerlink" title="Urxvt"></a>Urxvt</h4><h3 id="API-documents"><a href="#API-documents" class="headerlink" title="API documents"></a>API documents</h3><h4 id="Zeal"><a href="#Zeal" class="headerlink" title="Zeal"></a>Zeal</h4><p><a target="_blank" rel="noopener" href="https://zealdocs.org/">Download</a></p>
+<h3 id="System-wide-keys-remapping"><a href="#System-wide-keys-remapping" class="headerlink" title="System-wide keys remapping"></a>System-wide keys remapping</h3><h4 id="xkeysnail"><a href="#xkeysnail" class="headerlink" title="xkeysnail"></a>xkeysnail</h4><ul>
+<li><p>Install</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip install xkeysnail</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h3 id="PDF-Reader"><a href="#PDF-Reader" class="headerlink" title="PDF Reader"></a>PDF Reader</h3><p>Zathura</p>
+<h2 id="Common"><a href="#Common" class="headerlink" title="Common"></a>Common</h2><h3 id="Terminal-multiplexer"><a href="#Terminal-multiplexer" class="headerlink" title="Terminal multiplexer"></a>Terminal multiplexer</h3><h4 id="Tmux"><a href="#Tmux" class="headerlink" title="Tmux"></a>Tmux</h4><h3 id="Editor-and-IDE"><a href="#Editor-and-IDE" class="headerlink" title="Editor and IDE"></a>Editor and IDE</h3><h4 id="Emacs-IDEA-intellij"><a href="#Emacs-IDEA-intellij" class="headerlink" title="Emacs/IDEA intellij"></a>Emacs/IDEA intellij</h4><h3 id="Shell"><a href="#Shell" class="headerlink" title="Shell"></a>Shell</h3><h4 id="fish-shell"><a href="#fish-shell" class="headerlink" title="fish shell"></a>fish shell</h4><ul>
+<li>theme: oh-my-fish/theme-beloglazov</li>
+</ul>
+<h3 id="Browser"><a href="#Browser" class="headerlink" title="Browser"></a>Browser</h3><h4 id="Firefox"><a href="#Firefox" class="headerlink" title="Firefox"></a>Firefox</h4><h3 id="Mail"><a href="#Mail" class="headerlink" title="Mail"></a>Mail</h3><ul>
+<li>notmuch: mail indexing</li>
+<li>isync: mail receiving</li>
+<li>msmtp: mail sending</li>
+</ul>
+<h3 id="Password-Manager"><a href="#Password-Manager" class="headerlink" title="Password Manager"></a>Password Manager</h3><h4 id="pass"><a href="#pass" class="headerlink" title="pass"></a>pass</h4><h4 id="GnuPG"><a href="#GnuPG" class="headerlink" title="GnuPG"></a>GnuPG</h4><h3 id="Net-tools"><a href="#Net-tools" class="headerlink" title="Net tools"></a>Net tools</h3><h4 id="SSH"><a href="#SSH" class="headerlink" title="SSH"></a>SSH</h4><p>Make sure proxy host enable <code>GatewayPorts</code>, in <code>/etc/ssh/sshd_config</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GatewayPorts yes</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>local relay</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh -L &lt;<span class="built_in">local</span>-port&gt;:&lt;target&gt; &lt;proxy-host&gt;</span><br><span class="line"><span class="comment"># localhost:1080 -&gt; proxy-server -&gt; github.com:80</span></span><br><span class="line">ssh -L 1080:github.com:80 user@proxy-server</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>dynamic relay</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh -D &lt;<span class="built_in">local</span>-port&gt; &lt;proxy-host&gt;</span><br><span class="line"><span class="comment"># localhost:1080 -&gt; proxy-server -&gt; any host</span></span><br><span class="line">ssh -D 1080 user@proxy-server</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>remote relay</p>
+  <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh -R &lt;remote-port&gt;:&lt;target&gt; &lt;proxy-host&gt;</span><br><span class="line"><span class="comment"># proxy-server:8080 -&gt; localhost:5000</span></span><br><span class="line">ssh -R 8080:localhost:5000 user@proxy-server</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>flag</p>
+<ul>
+<li>-N: don’t open remote shell</li>
+<li>-T: no tty</li>
+<li>-f: run background</li>
+</ul>
+</li>
+</ul>
+<h4 id="AutoSSH"><a href="#AutoSSH" class="headerlink" title="AutoSSH"></a>AutoSSH</h4><p>AutoSSH can keep ssh connection alive, reconnect automatically.</p>
+<ul>
+<li><p>flag</p>
+<p> Same as SSH flag, but without <code>-f</code>, AutoSSH default run in background.</p>
+</li>
+</ul>
+<h4 id="nmap"><a href="#nmap" class="headerlink" title="nmap"></a>nmap</h4><p>Check opening port</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap localhost</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/kaiwk">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Mac-OSX"><span class="toc-number">1.</span> <span class="toc-text">Mac OSX</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Archlinux"><span class="toc-number">2.</span> <span class="toc-text">Archlinux</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Window-manager"><span class="toc-number">2.1.</span> <span class="toc-text">Window manager</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#i3wm"><span class="toc-number">2.1.1.</span> <span class="toc-text">i3wm</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Terminal-emulator"><span class="toc-number">2.2.</span> <span class="toc-text">Terminal emulator</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Urxvt"><span class="toc-number">2.2.1.</span> <span class="toc-text">Urxvt</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#API-documents"><span class="toc-number">2.3.</span> <span class="toc-text">API documents</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Zeal"><span class="toc-number">2.3.1.</span> <span class="toc-text">Zeal</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#System-wide-keys-remapping"><span class="toc-number">2.4.</span> <span class="toc-text">System-wide keys remapping</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#xkeysnail"><span class="toc-number">2.4.1.</span> <span class="toc-text">xkeysnail</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PDF-Reader"><span class="toc-number">2.5.</span> <span class="toc-text">PDF Reader</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Common"><span class="toc-number">3.</span> <span class="toc-text">Common</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Terminal-multiplexer"><span class="toc-number">3.1.</span> <span class="toc-text">Terminal multiplexer</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Tmux"><span class="toc-number">3.1.1.</span> <span class="toc-text">Tmux</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Editor-and-IDE"><span class="toc-number">3.2.</span> <span class="toc-text">Editor and IDE</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Emacs-IDEA-intellij"><span class="toc-number">3.2.1.</span> <span class="toc-text">Emacs&#x2F;IDEA intellij</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Shell"><span class="toc-number">3.3.</span> <span class="toc-text">Shell</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#fish-shell"><span class="toc-number">3.3.1.</span> <span class="toc-text">fish shell</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Browser"><span class="toc-number">3.4.</span> <span class="toc-text">Browser</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Firefox"><span class="toc-number">3.4.1.</span> <span class="toc-text">Firefox</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mail"><span class="toc-number">3.5.</span> <span class="toc-text">Mail</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Password-Manager"><span class="toc-number">3.6.</span> <span class="toc-text">Password Manager</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#pass"><span class="toc-number">3.6.1.</span> <span class="toc-text">pass</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#GnuPG"><span class="toc-number">3.6.2.</span> <span class="toc-text">GnuPG</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Net-tools"><span class="toc-number">3.7.</span> <span class="toc-text">Net tools</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SSH"><span class="toc-number">3.7.1.</span> <span class="toc-text">SSH</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AutoSSH"><span class="toc-number">3.7.2.</span> <span class="toc-text">AutoSSH</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nmap"><span class="toc-number">3.7.3.</span> <span class="toc-text">nmap</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://kaiwk.github.io/2019/01/13/Development-Tools/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://kaiwk.github.io/2019/01/13/Development-Tools/&text=Development Tools"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://kaiwk.github.io/2019/01/13/Development-Tools/&title=Development Tools"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://kaiwk.github.io/2019/01/13/Development-Tools/&is_video=false&description=Development Tools"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Development Tools&body=Check out this article: http://kaiwk.github.io/2019/01/13/Development-Tools/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://kaiwk.github.io/2019/01/13/Development-Tools/&title=Development Tools"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://kaiwk.github.io/2019/01/13/Development-Tools/&title=Development Tools"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://kaiwk.github.io/2019/01/13/Development-Tools/&title=Development Tools"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://kaiwk.github.io/2019/01/13/Development-Tools/&title=Development Tools"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://kaiwk.github.io/2019/01/13/Development-Tools/&name=Development Tools&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://kaiwk.github.io/2019/01/13/Development-Tools/&t=Development Tools"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020
+    Wang Kai
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/kaiwk">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'kaiwk-homepage';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

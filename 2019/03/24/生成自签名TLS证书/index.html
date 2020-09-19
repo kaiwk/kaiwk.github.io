@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="由 HTTPS 看 TLS 握手过程TLS 的握手过程如下：  第一次握手，约定加密算法，TLS 的版本 第二次握手，交换证书。服务器把证书发送给客户端，客户端验证证书合法性，如果有必要，客户端也可以发送自己的证书给服务端 第三次握手，交换对称秘钥。客户端用服务端证书携带的公钥加密对称秘钥，发送给服务端，服务端用私钥解密。 之后双方通过这个对称秘钥进行加密通信 。  上面的过程有两个关键：  客户">
+<meta property="og:type" content="article">
+<meta property="og:title" content="生成自签名 TLS 证书">
+<meta property="og:url" content="http://kaiwk.github.io/2019/03/24/%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8DTLS%E8%AF%81%E4%B9%A6/index.html">
+<meta property="og:site_name" content="Kai&#39;s Blog">
+<meta property="og:description" content="由 HTTPS 看 TLS 握手过程TLS 的握手过程如下：  第一次握手，约定加密算法，TLS 的版本 第二次握手，交换证书。服务器把证书发送给客户端，客户端验证证书合法性，如果有必要，客户端也可以发送自己的证书给服务端 第三次握手，交换对称秘钥。客户端用服务端证书携带的公钥加密对称秘钥，发送给服务端，服务端用私钥解密。 之后双方通过这个对称秘钥进行加密通信 。  上面的过程有两个关键：  客户">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-03-24T12:40:11.000Z">
+<meta property="article:modified_time" content="2020-09-19T12:42:48.095Z">
+<meta property="article:author" content="Wang Kai">
+<meta property="article:tag" content="network">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>生成自签名 TLS 证书</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/kaiwk">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2019/01/13/Development-Tools/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://kaiwk.github.io/2019/03/24/%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8DTLS%E8%AF%81%E4%B9%A6/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://kaiwk.github.io/2019/03/24/%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8DTLS%E8%AF%81%E4%B9%A6/&text=生成自签名 TLS 证书"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://kaiwk.github.io/2019/03/24/%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8DTLS%E8%AF%81%E4%B9%A6/&title=生成自签名 TLS 证书"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://kaiwk.github.io/2019/03/24/%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8DTLS%E8%AF%81%E4%B9%A6/&is_video=false&description=生成自签名 TLS 证书"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=生成自签名 TLS 证书&body=Check out this article: http://kaiwk.github.io/2019/03/24/%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8DTLS%E8%AF%81%E4%B9%A6/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://kaiwk.github.io/2019/03/24/%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8DTLS%E8%AF%81%E4%B9%A6/&title=生成自签名 TLS 证书"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://kaiwk.github.io/2019/03/24/%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8DTLS%E8%AF%81%E4%B9%A6/&title=生成自签名 TLS 证书"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://kaiwk.github.io/2019/03/24/%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8DTLS%E8%AF%81%E4%B9%A6/&title=生成自签名 TLS 证书"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://kaiwk.github.io/2019/03/24/%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8DTLS%E8%AF%81%E4%B9%A6/&title=生成自签名 TLS 证书"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://kaiwk.github.io/2019/03/24/%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8DTLS%E8%AF%81%E4%B9%A6/&name=生成自签名 TLS 证书&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://kaiwk.github.io/2019/03/24/%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8DTLS%E8%AF%81%E4%B9%A6/&t=生成自签名 TLS 证书"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B1-HTTPS-%E7%9C%8B-TLS-%E6%8F%A1%E6%89%8B%E8%BF%87%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">由 HTTPS 看 TLS 握手过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E7%AD%BE%E5%90%8D%E8%BF%87%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">自签名过程</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        生成自签名 TLS 证书
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Kai's Blog</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-03-24T12:40:11.000Z" itemprop="datePublished">2019-03-24</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/network/" rel="tag">network</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="由-HTTPS-看-TLS-握手过程"><a href="#由-HTTPS-看-TLS-握手过程" class="headerlink" title="由 HTTPS 看 TLS 握手过程"></a>由 HTTPS 看 TLS 握手过程</h2><p>TLS 的握手过程如下：</p>
+<ol>
+<li>第一次握手，约定加密算法，TLS 的版本</li>
+<li>第二次握手，交换证书。服务器把证书发送给客户端，客户端验证证书合法性，如果有<br>必要，客户端也可以发送自己的证书给服务端</li>
+<li>第三次握手，交换对称秘钥。客户端用服务端证书携带的公钥加密对称秘钥，发送给服<br>务端，服务端用私钥解密。 <strong>之后双方通过这个对称秘钥进行加密通信</strong> 。</li>
+</ol>
+<p>上面的过程有两个关键：</p>
+<ul>
+<li>客户端需要验证证书合法性</li>
+<li>TLS 的握手阶段是采用非对称加密，而真正通信仍然是对称加密的</li>
+</ul>
+<p>第二点比较容易解释，因为对称加密更快，所以不会用非对称加密来加密真正需要传播的信<br>息。</p>
+<p>对于第一点，首先，证书本质是一个文本文件，它携带了服务器的若干信息，比如所属公司，<br>所属公司的地址，域名，还有公钥。同时，证书的合法性是由另一个证书保证的，更高一级<br>的证书可以对其他证书进行签名（Signature）。数字签名就是利用私钥加密一端摘要，验<br>证签名时用公钥解密，如果解密后的摘要和原来的相同，则为合法证书。</p>
+<p>数字签名的过程和非对称加密的区别在于，数字签名使用私钥加密，而加密通信是使用公钥<br>加密。</p>
+<p>高级证书为下一级证书签名，做“担保”，那么高级证书自身也需要被证明合法性，这就产生<br>了自举问题。所以最高级的证书，也就是根证书，都是自签名的，最终形成一条证书链。</p>
+<p>根证书由一些权威机构保证安全，比如 Symantec，GoDaddy，并且它们会被预先安装到浏览<br>器中。当验证证书合法性时，会沿着证书链条，一直上溯到根证书。</p>
+<p>对于个人来说，没有必要申请根证书的签名，但是现在一些应用会要求使用 TLS 加密，办法<br>有两个：1. 使用 Let’s Encrypt；2. 使用自签名证书。</p>
+<h2 id="自签名过程"><a href="#自签名过程" class="headerlink" title="自签名过程"></a>自签名过程</h2><p>Prosody 是一个支持 XMPP 协议的通信服务器，以 Prosody 为例，来生成一个可以使用的<br>私钥和证书。</p>
+<p>进入 <code>/etc/ssl/private</code> 目录：</p>
+<ol>
+<li><p>生成根秘钥匙</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl genrsa -out cakey.pem 2048</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>利用根秘钥签名，生成根证书。需要填写地区，公司，域名，邮箱等信息</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl req -new -x509 -key cakey.pem -out cacert.pem</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>下面用根证书来签名需要使用的证书：</p>
+<ol>
+<li><p>生成应用的私钥</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl genrsa -out prosody.key 2048</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>用应用私钥生成证书请求</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl req -new -key prosody.key -out prosody.csr</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>用根证书，根据证书请求对应用证书进行签名</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 该命令会根据 /etc/ssl/openssl.cnf 中根证书的位置，去查找需要使用的根证书</span></span><br><span class="line"><span class="comment"># 在这个例子里，就是 cacert.pem 的位置</span></span><br><span class="line">openssl ca -<span class="keyword">in</span> prosody.csr -out prosody.crt</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/kaiwk">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B1-HTTPS-%E7%9C%8B-TLS-%E6%8F%A1%E6%89%8B%E8%BF%87%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">由 HTTPS 看 TLS 握手过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E7%AD%BE%E5%90%8D%E8%BF%87%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">自签名过程</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://kaiwk.github.io/2019/03/24/%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8DTLS%E8%AF%81%E4%B9%A6/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://kaiwk.github.io/2019/03/24/%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8DTLS%E8%AF%81%E4%B9%A6/&text=生成自签名 TLS 证书"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://kaiwk.github.io/2019/03/24/%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8DTLS%E8%AF%81%E4%B9%A6/&title=生成自签名 TLS 证书"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://kaiwk.github.io/2019/03/24/%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8DTLS%E8%AF%81%E4%B9%A6/&is_video=false&description=生成自签名 TLS 证书"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=生成自签名 TLS 证书&body=Check out this article: http://kaiwk.github.io/2019/03/24/%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8DTLS%E8%AF%81%E4%B9%A6/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://kaiwk.github.io/2019/03/24/%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8DTLS%E8%AF%81%E4%B9%A6/&title=生成自签名 TLS 证书"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://kaiwk.github.io/2019/03/24/%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8DTLS%E8%AF%81%E4%B9%A6/&title=生成自签名 TLS 证书"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://kaiwk.github.io/2019/03/24/%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8DTLS%E8%AF%81%E4%B9%A6/&title=生成自签名 TLS 证书"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://kaiwk.github.io/2019/03/24/%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8DTLS%E8%AF%81%E4%B9%A6/&title=生成自签名 TLS 证书"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://kaiwk.github.io/2019/03/24/%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8DTLS%E8%AF%81%E4%B9%A6/&name=生成自签名 TLS 证书&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://kaiwk.github.io/2019/03/24/%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8DTLS%E8%AF%81%E4%B9%A6/&t=生成自签名 TLS 证书"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020
+    Wang Kai
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/kaiwk">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'kaiwk-homepage';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>
